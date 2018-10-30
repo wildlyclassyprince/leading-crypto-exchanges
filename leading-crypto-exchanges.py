@@ -13,7 +13,6 @@ __email__ = "lihtumb@gmail.com"
 # The usual suspects ...
 from datetime import datetime
 import pandas as pd
-import tabulate
 
 # Data location
 URL = https://coinmarketcap.com/rankings/exchanges/reported/

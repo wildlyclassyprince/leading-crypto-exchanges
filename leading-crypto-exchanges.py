@@ -15,25 +15,26 @@ from datetime import datetime
 import pandas as pd
 
 # Data location
-URL = https://coinmarketcap.com/rankings/exchanges/reported/
+URL = 'https://coinmarketcap.com/rankings/exchanges/reported/'
 
 # Using Pandas to return the first table on the page
 df = pd.read_html(URL, attrs={'id': 'exchange-rankings'})[0]
 
 # Cleaning numeric data:
-columns = [column in df.columns if df[column].dtypes == 'O']
+columns = [column for column in df.columns if df[column].dtypes == 'O']
 columns.pop(0) # Drops from the list 'Name'
-columns.pop(-1) # Drops from the list 'Launched'
+#columns.pop(-1) # Drops from the list 'Launched'
 for column in columns:
   df[column] = df[column].apply(lambda x: x.upper())
   df[column] = df[column].str.replace('$', '')
   df[column] = df[column].str.replace(',', '')
   df[column] = df[column].str.replace('Low Vol', '0')
   df[column] = df[column].str.replace('%', '')
+  df[column] = df[column].str.replace('?', '')
   df[column] = df[column].str.strip()
 
 # Drop 'Vol Graph (7d)'
-df.drop('vol Graph (7d)', axis=1, inplace=True)
+df.drop('Vol Graph (7d)', axis=1, inplace=True)
 
 # Convert numeric columns to numeric type
 def coerce_df_columns_to_numeric(df, column_list):
